@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import { useState } from 'react';
+import PrivateRoute from './components/Login/PrivateRoute';
 
 function App() {
   const [admin, setAdmin] = useState(false);
@@ -18,12 +19,14 @@ function App() {
              setUser={setUser}
            />
           </Route>
-          <Route path="/dashboard">
+          <PrivateRoute 
+          user={user}
+          path="/dashboard">
             <Home 
             admin={admin}
             user={user}
              />
-          </Route>
+          </PrivateRoute>
 
         </Switch>
       </BrowserRouter>
