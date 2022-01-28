@@ -20,10 +20,11 @@ const style = {
 
 };
 
-export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChanged}) {
-    const handleClose = () => setOpen(false);
-    const [medicine, setMedicine] = React.useState({})
+export default function UpdateMedicineDetails({ data, openU, setOpenU, isChanged, setIsChanged }) {
+    const handleClose = () => setOpenU(false);
+    const [medicine, setMedicine] = React.useState(data)
     const form = React.useRef(null)
+    const { medicineName, manufacturer, price, stock, discount } = data;
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -32,29 +33,38 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
         newMedicineData[field] = value;
         setMedicine(newMedicineData)
 
+
     }
-    const handleAddToInventory = (e) => {
+    const handleUpdate = (e) => {
         // send data to the server
-        // console.log(medicine)
-        fetch('http://localhost:5000/medicine', {
-            method: 'POST',
+
+        const newMedicineData = { ...medicine, _id: data._id }
+        fetch('http://localhost:5000/medicines', {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(medicine)
-
+            body: JSON.stringify(newMedicineData)
         })
             .then(res => res.json())
             .then(data => {
-                if (data.insertedId) {
-                    // alert('Medicine Added')
-                        setIsChanged(!isChanged)
-                    // form.current.reset();
-                    
+             
+                if (data.modifiedCount) {
+                    alert('Medicine Updated')
+                    setIsChanged(!isChanged)
+                } else {
+                    alert('something wrong')
+                    console.log(data)
                 }
-            })
+                // empty input field
+                // for name field need must and here name is email  
 
-        setOpen(false)
+            })
+        console.log(newMedicineData)
+        form.current.reset();
+        setMedicine({})
+
+        setOpenU(false)
 
         e.preventDefault()
     }
@@ -62,17 +72,17 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
     return (
         <div>
             <Modal
-                open={open}
+                open={openU}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
 
-                    <h2>Add Medicine Details</h2>
+                    <h2>Update Medicine Details</h2>
                     <form
                         ref={form}
-                        onSubmit={handleAddToInventory}>
+                        onSubmit={handleUpdate}>
 
                         <TextField
                             required
@@ -80,6 +90,7 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
                             label="Medicine Name"
                             variant="standard"
                             name='medicineName'
+                            defaultValue={medicineName}
                             onBlur={handleOnBlur} />
 
                         <TextField
@@ -87,6 +98,7 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
                             sx={{ width: '90%', m: 2 }}
                             label="Manufacturer"
                             variant="standard"
+                            defaultValue={manufacturer}
                             name='manufacturer'
                             onBlur={handleOnBlur} />
                         <TextField
@@ -96,7 +108,7 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
                             variant="standard"
                             name='price'
                             type='number'
-
+                            defaultValue={price}
                             onBlur={handleOnBlur} />
 
                         <TextField
@@ -106,6 +118,7 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
                             variant="standard"
                             name='stock'
                             type='number'
+                            defaultValue={stock}
                             onBlur={handleOnBlur} />
 
                         <TextField
@@ -115,12 +128,13 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
                             variant="standard"
                             name='discount'
                             type='number'
+                            defaultValue={discount}
                             onBlur={handleOnBlur} />
 
 
                         <button
 
-                            style={{ marginTop: 20, width: '90%', backgroundColor: '#1976D2', color: 'white', padding: '10px', borderRadius: '15px', cursor: 'pointer' }} type='submit'>Add To The Inventory</button>
+                            style={{ marginTop: 20, width: '90%', backgroundColor: '#1976D2', color: 'white', padding: '10px', borderRadius: '15px', cursor: 'pointer' }} type='submit'>Update</button>
 
                     </form>
                 </Box>

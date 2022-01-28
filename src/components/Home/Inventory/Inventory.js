@@ -1,28 +1,81 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import AddMedicineDetails from './AddMedicineDetaild/AddMedicineDetails';
 import AddIcon from '@mui/icons-material/Add';
+import UpdateMedicineDetails from './UpdateMedicineDetails/UpdateMedicineDetails';
 
 
 
 export default function Inventory() {
     const [carts, setCarts] = useState([]);
     const handleOpen = () => setOpen(true);
+    const handleOpenU = (data) => {
+        setCurrentMedicine(data)
+        setOpenU(true)
+
+    };
     const [open, setOpen] = React.useState(false);
+    const [openU, setOpenU] = React.useState(false);
+    const [isChanged, setIsChanged] = useState(false);
+    const [currentMedicine, setCurrentMedicine]=useState({})
+
+
+    const handleRemove = id => {
+        if (window.confirm("Are You Sure Want to Delete") === true) {
+
+            const url = `http://localhost:5000/medicine/${id}`;
+            fetch(url, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data)
+
+                    if (data.deletedCount) {
+                        alert('Deleted')
+                        const remaining = carts.filter(cart => cart._id !== id);
+                        setCarts(remaining)
+                    }
+                })
+
+        } else {
+            alert('Deleted cancel')
+
+        }
+
+
+    }
+
+    useEffect(() => {
+
+        fetch('http://localhost:5000/medicine')
+            .then(res => res.json())
+            .then(data => setCarts(data))
+
+    }, [isChanged,setCurrentMedicine])
 
 
     return <div>
         <h2>Inventory</h2>
-        <div style={{display:'flex',justifyContent:'left',marginBottom:15}}>
-            <Button startIcon={<AddIcon/>} onClick={handleOpen}>Add New Medicine</Button>
+        <div style={{ display: 'flex', justifyContent: 'left', marginBottom: 15 }}>
+            <Button startIcon={<AddIcon />} onClick={handleOpen}>Add New Medicine</Button>
         </div>
         <AddMedicineDetails
             setOpen={setOpen}
             open={open}
+            isChanged={isChanged}
+            setIsChanged={setIsChanged}
         />
-        
+        <UpdateMedicineDetails
+            setOpenU={setOpenU}
+            openU={openU}
+            isChanged={isChanged}
+            setIsChanged={setIsChanged}
+            data={currentMedicine}
+        />
+
         <TableContainer component={Paper}>
             <Table sx={{}} aria-label="Appointments table">
                 <TableHead>
@@ -36,28 +89,35 @@ export default function Inventory() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/* {carts.map((row) => ( */}
-                    <TableRow
-                        // key={row._id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <TableCell component="th" scope="row">
-                            M name
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                            manufacture
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                            price
-                        </TableCell>
-                        <TableCell align="right">stock</TableCell>
-                        <TableCell align="right">discount</TableCell>
-                        <TableCell align="right">
-                            <Button><CreateIcon /></Button>
-                            <Button style={{ color: 'red' }}><DeleteIcon /></Button></TableCell>
+                    {carts.map((row) => (
 
-                    </TableRow>
-                    {/* ))} */}
+
+                        <TableRow
+                            key={row._id}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell component="th" scope="row">
+                                {row.medicineName}
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                                {row.manufacturer}
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                                {row.price}
+                            </TableCell>
+                            <TableCell align="right">{row.stock}</TableCell>
+                            <TableCell align="right">{row.discount}</TableCell>
+                            <TableCell align="right">
+
+
+                                <Button onClick={()=>handleOpenU(row)}><CreateIcon /></Button>
+                                <Button onClick={() => handleRemove(row._id)} style={{ color: 'red' }}><DeleteIcon /></Button></TableCell>
+
+
+                        </TableRow>
+
+
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer>

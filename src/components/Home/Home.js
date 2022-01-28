@@ -45,7 +45,7 @@ function Home(props) {
                 startIcon={<CreateIcon />}  >  Create Order</Button></Link>
             <br />
 
-            {user &&
+            {!admin &&
                 <div>
                     <Link to={`${url}/orderHistory`} style={{ textDecoration: 'none' }}><Button color="inherit"
                         startIcon={<LocalMallIcon />}  >  Order History</Button></Link>

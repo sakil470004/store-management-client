@@ -63,6 +63,7 @@ export default function Login({ setAdmin, setUser }) {
                     label="Password"
                     variant="standard"
                     name='password'
+                    type='password'
                     onBlur={handleOnBlur} />
 
 
