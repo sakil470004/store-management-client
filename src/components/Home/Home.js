@@ -11,18 +11,20 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CreateIcon from '@mui/icons-material/Create';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-import { useRouteMatch ,Link, Route, Switch } from 'react-router-dom';
+import { useRouteMatch, Link, Route, Switch } from 'react-router-dom';
 import CreateOrder from './CreateOrder/CreateOrder';
 import PeopleIcon from '@mui/icons-material/People';
 import { Button } from '@mui/material';
 import OrderHistory from './OrderHistory/OrderHistory';
 import Inventory from './Inventory/Inventory';
+import AllOrder from './AllOrder/AllOrder';
+import SalesExecutives from '../SalesExecutives/SalesExecutives';
 
 
 const drawerWidth = 240;
 
 function Home(props) {
-    const { window } = props;
+    const { window, admin, user } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { path, url } = useRouteMatch();
     // let url='http://localhost:3000/'
@@ -42,21 +44,27 @@ function Home(props) {
             <Link to={`${url}/createorder`} style={{ textDecoration: 'none' }}><Button color="inherit"
                 startIcon={<CreateIcon />}  >  Create Order</Button></Link>
             <br />
-            <Link to={`${url}/orderHistory`} style={{ textDecoration: 'none' }}><Button color="inherit"
-                startIcon={<LocalMallIcon />}  >  Order History</Button></Link>
-            <br />
 
+            {user &&
+                <div>
+                    <Link to={`${url}/orderHistory`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                        startIcon={<LocalMallIcon />}  >  Order History</Button></Link>
+                    <br />
+                </div>
+            }
             {/* for admin */}
-            <Link to={`${url}/inventory`} style={{ textDecoration: 'none' }}><Button color="inherit"
-                startIcon={<LocalMallIcon />}  >  Inventory</Button></Link>
-            <br />
-            <Link to={`${url}/salesExecutives`} style={{ textDecoration: 'none' }}><Button color="inherit"
-                startIcon={<PeopleIcon />}  > Sales Executives</Button></Link>
-            <br />
-            <Link to={`${url}/orders`} style={{ textDecoration: 'none' }}><Button color="inherit"
-                startIcon={<LocalMallIcon />}  >Orders</Button></Link>
-            <br />
-
+            {admin && <div>
+                <Link to={`${url}/inventory`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                    startIcon={<LocalMallIcon />}  >  Inventory</Button></Link>
+                <br />
+                <Link to={`${url}/salesExecutives`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                    startIcon={<PeopleIcon />}  > Sales Executives</Button></Link>
+                <br />
+                <Link to={`${url}/allorder`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                    startIcon={<LocalMallIcon />}  > All Order</Button></Link>
+                <br />
+            </div>
+            }
         </div>
     );
 
@@ -140,7 +148,12 @@ function Home(props) {
                     </Route>
                     <Route path={`${path}/inventory`}>
                         <Inventory />
-
+                    </Route>
+                    <Route path={`${path}/allOrder`}>
+                        <AllOrder />
+                    </Route>
+                    <Route path={`${path}/salesExecutives`}>
+                        <SalesExecutives />
                     </Route>
 
                 </Switch>

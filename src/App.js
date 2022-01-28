@@ -1,17 +1,28 @@
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/Home/Home';
+import Login from './components/Login/Login';
+import { useState } from 'react';
 
 function App() {
+  const [admin, setAdmin] = useState(false);
+  const [user, setUser] = useState(false);
+
   return (
     <div className="App">
       <BrowserRouter>
         <Switch >
           <Route exact path="/">
-            <h1>log in</h1>
+           <Login 
+             setAdmin={setAdmin}
+             setUser={setUser}
+           />
           </Route>
-          <Route path="/sa">
-            <Home />
+          <Route path="/dashboard">
+            <Home 
+            admin={admin}
+            user={user}
+             />
           </Route>
 
         </Switch>

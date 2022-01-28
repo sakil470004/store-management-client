@@ -2,11 +2,11 @@ import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, 
 import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function OrderHistory() {
+export default function AllOrder() {
     const [carts, setCarts] = useState([]);
 
     return <div>
-        <h2>My Order History</h2>
+        <h2>All Order History </h2>
         <TableContainer component={Paper}>
             <Table sx={{}} aria-label="Appointments table">
                 <TableHead>
