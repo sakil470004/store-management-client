@@ -18,7 +18,7 @@ import { Button } from '@mui/material';
 import OrderHistory from './OrderHistory/OrderHistory';
 import Inventory from './Inventory/Inventory';
 import AllOrder from './AllOrder/AllOrder';
-import SalesExecutives from '../SalesExecutives/SalesExecutives';
+import SalesExecutives from './SalesExecutives/SalesExecutives';
 
 
 const drawerWidth = 240;
