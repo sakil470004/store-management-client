@@ -33,7 +33,7 @@ export default function OrderHistory({ userName }) {
             .then(res => res.json())
             .then(data => setCarts(data))
 
-    }, [])
+    }, [userName])
     return <div>
         <h2>My Order History</h2>
         <TableContainer component={Paper}>

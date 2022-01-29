@@ -2,7 +2,7 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Alert, InputLabel, Snackbar } from '@mui/material';
+import { InputLabel } from '@mui/material';
 
 export default function ButtonGroupCustom({ medicineDetails, setCurrentSelectedMedicine }) {
   const [selectButton, setSelectButton] = React.useState('')
@@ -12,7 +12,7 @@ export default function ButtonGroupCustom({ medicineDetails, setCurrentSelectedM
   const handleChange = (event) => {
     const currentMedicineId = event.target.value;
 
-    const selectedMed = medicineDetails.find(mD => currentMedicineId == mD._id)
+    const selectedMed = medicineDetails.find(mD => currentMedicineId === mD._id)
     setCurrentSelectedMedicine(selectedMed);
     setSelectButton(currentMedicineId)
   
