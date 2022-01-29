@@ -36,7 +36,7 @@ export default function AddMedicineDetails({ open, setOpen ,isChanged,setIsChang
     const handleAddToInventory = (e) => {
         // send data to the server
         // console.log(medicine)
-        fetch('http://localhost:5000/medicine', {
+        fetch('https://storemanagementserver.herokuapp.com/medicine', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

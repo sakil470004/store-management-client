@@ -25,7 +25,7 @@ export default function Inventory() {
     const handleRemove = id => {
         if (window.confirm("Are You Sure Want to Delete") === true) {
 
-            const url = `http://localhost:5000/medicine/${id}`;
+            const url = `https://storemanagementserver.herokuapp.com/medicine/${id}`;
             fetch(url, {
                 method: 'DELETE'
             })
@@ -50,7 +50,7 @@ export default function Inventory() {
 
     useEffect(() => {
 
-        fetch('http://localhost:5000/medicine')
+        fetch('https://storemanagementserver.herokuapp.com/medicine')
             .then(res => res.json())
             .then(data => setCarts(data))
 

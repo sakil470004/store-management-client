@@ -22,7 +22,7 @@ export default function CreateOrder({ userName }) {
         // create obj for send server
         const orderDetails = { total: (order.medicineQuantity * currentSelectedMedicine.price), userName: userName, medicineName: currentSelectedMedicine.medicineName, ...order }
         // console.log(orderDetails)
-        fetch('http://localhost:5000/createOrder', {
+        fetch('https://storemanagementserver.herokuapp.com/createOrder', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -46,7 +46,7 @@ export default function CreateOrder({ userName }) {
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/medicine')
+        fetch('https://storemanagementserver.herokuapp.com/medicine')
             .then(res => res.json())
             .then(data => setMedicineDetails(data))
     }, [])

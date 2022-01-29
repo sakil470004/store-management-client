@@ -27,6 +27,9 @@ function App() {
             <Home
               admin={admin}
               userName={userName}
+              setUser={setUser}
+              setUserName={setUserName}
+              setAdmin={setAdmin}
             />
           </PrivateRoute>
 

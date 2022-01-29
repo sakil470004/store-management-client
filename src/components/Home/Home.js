@@ -8,7 +8,6 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import CreateIcon from '@mui/icons-material/Create';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { useRouteMatch, Link, Route, Switch } from 'react-router-dom';
@@ -24,7 +23,7 @@ import SalesExecutives from './SalesExecutives/SalesExecutives';
 const drawerWidth = 200;
 
 function Home(props) {
-    const { window, admin, userName } = props;
+    const { window, admin, userName,setUser,setUserName,setAdmin } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { path, url } = useRouteMatch();
     // let url='http://localhost:3000/'
@@ -33,6 +32,11 @@ function Home(props) {
         setMobileOpen(!mobileOpen);
     };
 
+    const handleLogOut=()=>{
+        setUser(false)
+        setUserName('');
+        setAdmin(false)
+    }
     const drawer = (
         <div style={{ textAlign: 'left' }}>
 
@@ -91,9 +95,11 @@ function Home(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Responsive drawer
-                    </Typography>
+                   <div style={{width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'right',marginTop:'10px'}}>
+                       <button
+                        onClick={handleLogOut}
+                        style={{padding:'10px',fontSize:'25px',cursor:'pointer',background:'#feeaeb',borderRadius:'40px',color:'red'}}>Logout</button>
+                   </div>
                 </Toolbar>
             </AppBar>
             <Box

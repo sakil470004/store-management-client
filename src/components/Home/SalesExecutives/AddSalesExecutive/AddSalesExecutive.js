@@ -36,7 +36,7 @@ export default function AddSalesExecutive({ open, setOpen, setIsChanged, isChang
     const handleCreateOrder = (e) => {
         // console.log(product)
         // send data to the server
-        fetch('http://localhost:5000/salesExecutives', {
+        fetch('https://storemanagementserver.herokuapp.com/salesExecutives', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
