@@ -1,12 +1,13 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ButtonGroupCustom from './ButtonGroupCustom';
 
-export default function CreateOrder() {
+export default function CreateOrder({ userName }) {
 
     const [order, setOrder] = useState({})
     const form = useRef(null)
+    const [medicineDetails, setMedicineDetails] = useState([])
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -24,6 +25,12 @@ export default function CreateOrder() {
         e.preventDefault()
     }
 
+    useEffect(() => {
+        fetch('http://localhost:5000/medicine')
+        .then(res => res.json())
+        .then(data => setMedicineDetails(data))
+    }, [])
+
     return <div>
         <h1>Crate Order</h1>
 
@@ -40,7 +47,9 @@ export default function CreateOrder() {
                 name='medicineName'
                 onBlur={handleOnBlur} /> */}
 
-            {/* <ButtonGroupCustom style={{ width: '50%' }} /> */}
+            <ButtonGroupCustom 
+                medicineDetails={medicineDetails}
+            style={{ width: '50%' }} />
             <TextField
                 required
                 sx={{ width: '74%', m: 2 }}
@@ -68,7 +77,7 @@ export default function CreateOrder() {
 
 
             <h2>Order Details</h2>
-            <div style={{display:'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
                 <TableContainer sx={{ width: "74%" }} component={Paper}>
                     <Table sx={{}} aria-label="Appointments table">

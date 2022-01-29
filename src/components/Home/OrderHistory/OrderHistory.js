@@ -2,7 +2,7 @@ import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, 
 import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function OrderHistory() {
+export default function OrderHistory({userName}) {
     const [carts, setCarts] = useState([]);
 
     return <div>

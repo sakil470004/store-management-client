@@ -24,7 +24,7 @@ import SalesExecutives from './SalesExecutives/SalesExecutives';
 const drawerWidth = 240;
 
 function Home(props) {
-    const { window, admin, user } = props;
+    const { window, admin,userName } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { path, url } = useRouteMatch();
     // let url='http://localhost:3000/'
@@ -139,11 +139,11 @@ function Home(props) {
 
                     </Route>
                     <Route path={`${path}/createorder`}>
-                        <CreateOrder />
+                        <CreateOrder userName={userName} />
 
                     </Route>
                     <Route path={`${path}/orderHistory`}>
-                        <OrderHistory />
+                        <OrderHistory userName={userName} />
 
                     </Route>
                     <Route path={`${path}/inventory`}>

@@ -2,7 +2,7 @@ import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default function Login({ setAdmin, setUser }) {
+export default function Login({ setAdmin, setUser,setUserName }) {
 
     const [loginInfo, setLoginInfo] = React.useState({})
     const form = React.useRef(null)
@@ -22,16 +22,20 @@ export default function Login({ setAdmin, setUser }) {
         if (loginInfo.userName === 'test-admin' && loginInfo.password === 'test-admin') {
             setAdmin(true)
             setUser(true)
+            setUserName('test-admin')
             history.push('/dashboard')
         } else if (loginInfo.userName === 'test-sales' && loginInfo.password === 'test-sales') {
             setAdmin(false)
             setUser(true)
+            setUserName('test-sales')
             history.push('/dashboard')
 
         } else {
             alert('incorrect user or password')
             setAdmin(false)
             setUser(false)
+            setUserName('')
+
         }
 
 
