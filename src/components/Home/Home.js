@@ -21,10 +21,10 @@ import AllOrder from './AllOrder/AllOrder';
 import SalesExecutives from './SalesExecutives/SalesExecutives';
 
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 function Home(props) {
-    const { window, admin,userName } = props;
+    const { window, admin, userName } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { path, url } = useRouteMatch();
     // let url='http://localhost:3000/'
@@ -36,31 +36,31 @@ function Home(props) {
     const drawer = (
         <div style={{ textAlign: 'left' }}>
 
-            <h1>MI</h1>
+            <h1 style={{textAlign:'center'}}>MI</h1>
             {/* <Toolbar /> */}
             <Divider />
 
 
-            <Link to={`${url}/createorder`} style={{ textDecoration: 'none' }}><Button color="inherit"
+            <Link to={`${url}/createorder`} style={{ textDecoration: 'none' }}><Button style={{ width: '100%',color:'black' }} color="inherit"
                 startIcon={<CreateIcon />}  >  Create Order</Button></Link>
             <br />
 
             {!admin &&
                 <div>
-                    <Link to={`${url}/orderHistory`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                    <Link to={`${url}/orderHistory`} style={{ textDecoration: 'none' }}><Button style={{ width: '100%' ,color:'black'}} color="inherit"
                         startIcon={<LocalMallIcon />}  >  Order History</Button></Link>
                     <br />
                 </div>
             }
             {/* for admin */}
             {admin && <div>
-                <Link to={`${url}/inventory`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                <Link to={`${url}/inventory`} style={{ textDecoration: 'none' }}><Button color="inherit" style={{ width: '100%',color:'black' }}
                     startIcon={<LocalMallIcon />}  >  Inventory</Button></Link>
                 <br />
-                <Link to={`${url}/salesExecutives`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                <Link to={`${url}/salesExecutives`} style={{ textDecoration: 'none' }}><Button color="inherit" style={{ width: '100%',color:'black' }}
                     startIcon={<PeopleIcon />}  > Sales Executives</Button></Link>
                 <br />
-                <Link to={`${url}/allorder`} style={{ textDecoration: 'none' }}><Button color="inherit"
+                <Link to={`${url}/allorder`} style={{ textDecoration: 'none' }}><Button color="inherit" style={{ width: '100%',color:'black' }}
                     startIcon={<LocalMallIcon />}  > All Order</Button></Link>
                 <br />
             </div>
@@ -74,10 +74,11 @@ function Home(props) {
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar
+            style={{ background: '#2E3B55' }}
                 position="fixed"
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    ml: { sm: `${drawerWidth}px` },
+                    ml: { sm: `${drawerWidth}px` },height:'80px'
                 }}
             >
                 <Toolbar>
