@@ -1,18 +1,18 @@
 # Note that this site has backend 
-#site future
-##There are two types of users:
-● Store Manager
-● Sales Executive
+# Site future
+## There are two types of users:
+● Store Manager<br />
+● Sales Executive<br />
 
-##Sales Executive
-● Manage Orders
-● Create orders
-● View orders created by them
+## Sales Executive
+● Manage Orders<br />
+● Create orders<br />
+● View orders created by them<br />
 
-##Sales Executive
-● Add Medicine to Inventory
-● Add and View and Manage Inventory 
-● Add Sales Executive
-● Add and View Team 
-● Create Order and manage Order
+## Sales Executive
+● Add Medicine to Inventory<br />
+● Add and View and Manage Inventory<br /> 
+● Add Sales Executive<br />
+● Add and View Team <br />
+● Create Order and manage Order<br />
 
