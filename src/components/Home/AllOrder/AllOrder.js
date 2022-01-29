@@ -1,8 +1,8 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, CircularProgress,  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function AllOrder() {
+export default function AllOrder({ isLoading, setIsLoading }) {
     const [carts, setCarts] = useState([]);
 
 
@@ -30,14 +30,22 @@ export default function AllOrder() {
     }
 
     useEffect(() => {
+        setIsLoading(true)
         fetch('https://storemanagementserver.herokuapp.com/createOrder')
             .then(res => res.json())
-            .then(data => setCarts(data))
+            .then(data => {setCarts(data)
+                setIsLoading(false)
+            })
+        
 
-    }, [])
+    }, [setIsLoading])
 
     return <div>
         <h2>All Order History </h2>
+        {
+                    isLoading ?
+                    <CircularProgress/>
+                        :
         <TableContainer component={Paper}>
             <Table sx={{}} aria-label="Appointments table">
                 <TableHead>
@@ -52,30 +60,32 @@ export default function AllOrder() {
                         <TableCell align="right">Action</TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {carts.map((row) => (
-                        <TableRow
-                            key={row._id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {row._id}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {row.customerName}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {row.medicineName}
-                            </TableCell>
-                            <TableCell align="right">{row.contactNumber}</TableCell>
-                            <TableCell align="right">{row.medicineQuantity}</TableCell>
-                            <TableCell align="right">{row.total}</TableCell>
-                            <TableCell align="right"><Button onClick={() => handleRemove(row._id)} style={{ color: 'red' }}><DeleteIcon /></Button></TableCell>
+               
+                        <TableBody>
+                            {carts.map((row) => (
+                                <TableRow
+                                    key={row._id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {row._id}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {row.customerName}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {row.medicineName}
+                                    </TableCell>
+                                    <TableCell align="right">{row.contactNumber}</TableCell>
+                                    <TableCell align="right">{row.medicineQuantity}</TableCell>
+                                    <TableCell align="right">{row.total}</TableCell>
+                                    <TableCell align="right"><Button onClick={() => handleRemove(row._id)} style={{ color: 'red' }}><DeleteIcon /></Button></TableCell>
 
-                        </TableRow>
-                    ))}
-                </TableBody>
+                                </TableRow>
+                            ))}
+                        </TableBody>
             </Table>
         </TableContainer>
+                }
     </div>;
 }

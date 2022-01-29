@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import AddMedicineDetails from './AddMedicineDetaild/AddMedicineDetails';
@@ -8,7 +8,7 @@ import UpdateMedicineDetails from './UpdateMedicineDetails/UpdateMedicineDetails
 
 
 
-export default function Inventory() {
+export default function Inventory({ isLoading, setIsLoading }) {
     const [carts, setCarts] = useState([]);
     const handleOpen = () => setOpen(true);
     const handleOpenU = (data) => {
@@ -19,7 +19,7 @@ export default function Inventory() {
     const [open, setOpen] = React.useState(false);
     const [openU, setOpenU] = React.useState(false);
     const [isChanged, setIsChanged] = useState(false);
-    const [currentMedicine, setCurrentMedicine]=useState({})
+    const [currentMedicine, setCurrentMedicine] = useState({})
 
 
     const handleRemove = id => {
@@ -49,12 +49,15 @@ export default function Inventory() {
     }
 
     useEffect(() => {
-
+        setIsLoading(true)
         fetch('https://storemanagementserver.herokuapp.com/medicine')
             .then(res => res.json())
-            .then(data => setCarts(data))
+            .then(data => {
+                setCarts(data)
+                setIsLoading(false)
+            })
 
-    }, [isChanged,setCurrentMedicine])
+    }, [isChanged, setCurrentMedicine,setIsLoading])
 
 
     return <div>
@@ -76,50 +79,55 @@ export default function Inventory() {
             data={currentMedicine}
         />
 
-        <TableContainer component={Paper}>
-            <Table sx={{}} aria-label="Appointments table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Medicine Name</TableCell>
-                        <TableCell>Manufacturer</TableCell>
-                        <TableCell>Price</TableCell>
-                        <TableCell align="right">Stock</TableCell>
-                        <TableCell align="right">Discount(%)</TableCell>
-                        <TableCell align="center">Action</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {carts.map((row) => (
+        {
+            isLoading ?
+                <CircularProgress/>
+                :
+                <TableContainer component={Paper}>
+                    <Table sx={{}} aria-label="Appointments table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Medicine Name</TableCell>
+                                <TableCell>Manufacturer</TableCell>
+                                <TableCell>Price</TableCell>
+                                <TableCell align="right">Stock</TableCell>
+                                <TableCell align="right">Discount(%)</TableCell>
+                                <TableCell align="center">Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {carts.map((row) => (
 
 
-                        <TableRow
-                            key={row._id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {row.medicineName}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {row.manufacturer}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {row.price}
-                            </TableCell>
-                            <TableCell align="right">{row.stock}</TableCell>
-                            <TableCell align="right">{row.discount}</TableCell>
-                            <TableCell align="right">
+                                <TableRow
+                                    key={row._id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {row.medicineName}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {row.manufacturer}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {row.price}
+                                    </TableCell>
+                                    <TableCell align="right">{row.stock}</TableCell>
+                                    <TableCell align="right">{row.discount}</TableCell>
+                                    <TableCell align="right">
 
 
-                                <Button onClick={()=>handleOpenU(row)}><CreateIcon /></Button>
-                                <Button onClick={() => handleRemove(row._id)} style={{ color: 'red' }}><DeleteIcon /></Button></TableCell>
+                                        <Button onClick={() => handleOpenU(row)}><CreateIcon /></Button>
+                                        <Button onClick={() => handleRemove(row._id)} style={{ color: 'red' }}><DeleteIcon /></Button></TableCell>
 
 
-                        </TableRow>
+                                </TableRow>
 
 
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+        }
     </div>;
 }

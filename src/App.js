@@ -4,6 +4,7 @@ import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import { useState } from 'react';
 import PrivateRoute from './components/Login/PrivateRoute';
+import PageNotFound from './components/404/404-page'
 
 function App() {
   const [admin, setAdmin] = useState(false);
@@ -32,6 +33,9 @@ function App() {
               setAdmin={setAdmin}
             />
           </PrivateRoute>
+          <Route path='/*'>
+         <PageNotFound/>
+          </Route>
 
         </Switch>
       </BrowserRouter>

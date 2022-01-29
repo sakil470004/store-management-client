@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import AddSalesExecutive from './AddSalesExecutive/AddSalesExecutive';
@@ -8,13 +8,13 @@ import UpdateSalesExecutives from './UpdateSalesExecutives/UpdateSalesExecutives
 
 
 
-export default function SalesExecutives() {
+export default function SalesExecutives({ isLoading, setIsLoading }) {
     const [carts, setCarts] = useState([]);
     const handleOpen = () => setOpen(true);
     const handleOpenU = (data) => {
-        setCurrentSaleExecutive(data)    
+        setCurrentSaleExecutive(data)
         setOpenU(true);
-    
+
     }
     const [open, setOpen] = React.useState(false);
     const [openU, setOpenU] = React.useState(false);
@@ -49,11 +49,15 @@ export default function SalesExecutives() {
     }
 
     useEffect(() => {
+        setIsLoading(true)
         fetch('https://storemanagementserver.herokuapp.com/salesExecutives')
             .then(res => res.json())
-            .then(data => setCarts(data))
+            .then(data => {
+                setCarts(data)
+                setIsLoading(false)
+            })
 
-    }, [isChanged])
+    }, [isChanged,setIsLoading])
 
     return <div>
         <h2>Sales Executives</h2>
@@ -73,6 +77,10 @@ export default function SalesExecutives() {
             setIsChanged={setIsChanged}
             data={currentSaleExecutive}
         />
+            {
+                    isLoading ?
+                    <CircularProgress/>
+                        :
         <TableContainer component={Paper}>
             <Table sx={{}} aria-label="Appointments table">
                 <TableHead>
@@ -112,5 +120,6 @@ export default function SalesExecutives() {
                 </TableBody>
             </Table>
         </TableContainer>
+            }
     </div>;
 }
