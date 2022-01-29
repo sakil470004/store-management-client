@@ -4,52 +4,18 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Alert, InputLabel, Snackbar } from '@mui/material';
 
-export default function ButtonGroupCustom({ action, medicineDetails }) {
-  const [newAction, setNewAction] = React.useState(action);
-  // snackbar code
-  // const [open, setOpen] = React.useState(false);
+export default function ButtonGroupCustom({ medicineDetails, setCurrentSelectedMedicine }) {
+  const [selectButton, setSelectButton] = React.useState('')
 
-
-
-  // const handleClick = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = (event, reason) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-
-  //   setOpen(false);
-  // };
-  // end of snackbar code
+ 
 
   const handleChange = (event) => {
-    // update action
-    // setNewAction(event.target.value);
-    // const user = { id, action: event.target.value }
-    // // console.log(event.target.value)
-    // fetch('https://mobile-dokan-server.herokuapp.com/carts/action', {
-    //   method: 'PUT',
-    //   headers: {
-    //     'content-type': 'application/json'
-    //   },
-    //   body: JSON.stringify(user)
-    // })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     // console.log(data);
-    //     if (data.modifiedCount) {
-    //       // alert('Action Changed')
-    //       // setDataObserver(!dataObserver)
-    //       handleClick()
-    //     } else {
-    //       alert('Something wrong when Action Changed')
+    const currentMedicineId = event.target.value;
 
-    //     }
-    //   })
-
-
+    const selectedMed = medicineDetails.find(mD => currentMedicineId == mD._id)
+    setCurrentSelectedMedicine(selectedMed);
+    setSelectButton(currentMedicineId)
+  
   };
 
 
@@ -57,32 +23,25 @@ export default function ButtonGroupCustom({ action, medicineDetails }) {
   return (
     <div >
       <FormControl sx={{ m: 1, width: "75%" }}>
-        <InputLabel id="demo-simple-select-autowidth-label">Medicine Name
+        <InputLabel >Medicine Name
         </InputLabel>
         <Select
-          labelId="demo-simple-select-autowidth-label"
-          id="demo-simple-select-autowidth"
-          value={newAction}
+          
+          value={selectButton}
           onChange={handleChange}
-          label="Age"
+          label="Medicine Name"
         >
 
           {medicineDetails.map(mD =>
-            < MenuItem value='pending'>{mD.medicineName}</MenuItem>
+            < MenuItem
+              key={mD._id}
+              value={mD._id}>{mD.medicineName}</MenuItem>
           )
           }
-          {/* <MenuItem value='pending'>Pending</MenuItem>
-          <MenuItem value='done'>Done</MenuItem>
-          <MenuItem value='ongoing'>On Going</MenuItem> */}
+      
         </Select>
       </FormControl>
-      {/* snackbar code */}
-      {/* <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Action Changed
-        </Alert>
-      </Snackbar> */}
-      {/* end of snackbar code */}
+   
     </div>
   );
 }

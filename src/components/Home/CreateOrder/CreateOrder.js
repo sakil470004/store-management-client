@@ -8,6 +8,7 @@ export default function CreateOrder({ userName }) {
     const [order, setOrder] = useState({})
     const form = useRef(null)
     const [medicineDetails, setMedicineDetails] = useState([])
+    const [currentSelectedMedicine, setCurrentSelectedMedicine] = useState({})
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -18,17 +19,37 @@ export default function CreateOrder({ userName }) {
 
     }
     const handleCreateOrder = (e) => {
-        // console.log(product)
         // send data to the server
+        // create obj for send server
+        const orderDetails = { total: (order.medicineQuantity * currentSelectedMedicine.price), userName: userName, medicineName: currentSelectedMedicine.medicineName, ...order }
+        // console.log(orderDetails)
+        fetch('http://localhost:5000/createOrder', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(orderDetails)
 
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    alert('Order Added')
+                    form.current.reset();
+                    // setCurrentSelectedMedicine({})
+
+
+
+                }
+            })
 
         e.preventDefault()
     }
 
     useEffect(() => {
         fetch('http://localhost:5000/medicine')
-        .then(res => res.json())
-        .then(data => setMedicineDetails(data))
+            .then(res => res.json())
+            .then(data => setMedicineDetails(data))
     }, [])
 
     return <div>
@@ -47,9 +68,11 @@ export default function CreateOrder({ userName }) {
                 name='medicineName'
                 onBlur={handleOnBlur} /> */}
 
-            <ButtonGroupCustom 
+            <ButtonGroupCustom
+                required
                 medicineDetails={medicineDetails}
-            style={{ width: '50%' }} />
+                setCurrentSelectedMedicine={setCurrentSelectedMedicine}
+                style={{ width: '50%' }} />
             <TextField
                 required
                 sx={{ width: '74%', m: 2 }}
@@ -97,12 +120,12 @@ export default function CreateOrder({ userName }) {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    test1
+                                    {currentSelectedMedicine.medicineName}
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    test2
+                                    {order.medicineQuantity}
                                 </TableCell>
-                                <TableCell align="right">test3</TableCell>
+                                <TableCell align="right">{currentSelectedMedicine.price}</TableCell>
 
 
                             </TableRow>
@@ -116,7 +139,7 @@ export default function CreateOrder({ userName }) {
                                 <TableCell component="th" scope="row">
 
                                 </TableCell>
-                                <TableCell align="right">0</TableCell>
+                                <TableCell align="right">{(order?.medicineQuantity * currentSelectedMedicine?.price).toString()}</TableCell>
 
 
                             </TableRow>

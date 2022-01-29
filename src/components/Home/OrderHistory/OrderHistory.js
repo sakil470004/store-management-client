@@ -1,10 +1,39 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function OrderHistory({userName}) {
+export default function OrderHistory({ userName }) {
     const [carts, setCarts] = useState([]);
 
+    const handleRemove = id => {
+        if (window.confirm("Are You Sure Want to Delete") === true) {
+
+            const url = `http://localhost:5000/createOrder/${id}`;
+            fetch(url, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data)
+
+                    if (data.deletedCount) {
+                        alert('Deleted')
+                        const remaining = carts.filter(cart => cart._id !== id);
+                        setCarts(remaining)
+                    }
+                })
+
+        } else {
+            alert('Deleted cancel')
+        }
+    }
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/createOrder/${userName}`)
+            .then(res => res.json())
+            .then(data => setCarts(data))
+
+    }, [])
     return <div>
         <h2>My Order History</h2>
         <TableContainer component={Paper}>
@@ -22,27 +51,27 @@ export default function OrderHistory({userName}) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/* {carts.map((row) => ( */}
+                    {carts.map((row) => (
                         <TableRow
-                            // key={row._id}
+                            key={row._id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                id
+                                {row._id}
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                customerName
+                                {row.customerName}
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                medicineName
+                                {row.medicineName}
                             </TableCell>
-                            <TableCell align="right">contact</TableCell>
-                            <TableCell align="right">qty</TableCell>
-                            <TableCell align="right">total</TableCell>
-                            <TableCell align="right"><Button style={{color:'red'}}><DeleteIcon/></Button></TableCell>
+                            <TableCell align="right">{row.contactNumber}</TableCell>
+                            <TableCell align="right">{row.medicineQuantity}</TableCell>
+                            <TableCell align="right">{row.total}</TableCell>
+                            <TableCell align="right"><Button onClick={() => handleRemove(row._id)} style={{ color: 'red' }}><DeleteIcon /></Button></TableCell>
 
                         </TableRow>
-                    {/* ))} */}
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer>
