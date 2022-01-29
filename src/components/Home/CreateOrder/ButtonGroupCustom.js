@@ -4,22 +4,24 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Alert, InputLabel, Snackbar } from '@mui/material';
 
-export default function ButtonGroupCustom({ action, id }) {
+export default function ButtonGroupCustom({ action, medicineDetails }) {
   const [newAction, setNewAction] = React.useState(action);
   // snackbar code
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
 
-    setOpen(false);
-  };
+  // const handleClick = () => {
+  //   setOpen(true);
+  // };
+
+  // const handleClose = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+
+  //   setOpen(false);
+  // };
   // end of snackbar code
 
   const handleChange = (event) => {
@@ -48,13 +50,13 @@ export default function ButtonGroupCustom({ action, id }) {
     //   })
 
 
-
-
   };
+
+
 
   return (
     <div >
-      <FormControl sx={{ m: 1, minWidth: 480 }}>
+      <FormControl sx={{ m: 1, width: "75%" }}>
         <InputLabel id="demo-simple-select-autowidth-label">Medicine Name
         </InputLabel>
         <Select
@@ -63,20 +65,23 @@ export default function ButtonGroupCustom({ action, id }) {
           value={newAction}
           onChange={handleChange}
           label="Age"
-          autoWidth
         >
 
-          <MenuItem value='pending'>Pending</MenuItem>
+          {medicineDetails.map(mD =>
+            < MenuItem value='pending'>{mD.medicineName}</MenuItem>
+          )
+          }
+          {/* <MenuItem value='pending'>Pending</MenuItem>
           <MenuItem value='done'>Done</MenuItem>
-          <MenuItem value='ongoing'>On Going</MenuItem>
+          <MenuItem value='ongoing'>On Going</MenuItem> */}
         </Select>
       </FormControl>
       {/* snackbar code */}
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+      {/* <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Action Changed
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
       {/* end of snackbar code */}
     </div>
   );
