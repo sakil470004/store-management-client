@@ -25,7 +25,7 @@ export default function SalesExecutives({ isLoading, setIsLoading }) {
     const handleRemove = id => {
         if (window.confirm("Are You Sure Want to Delete") === true) {
 
-            const url = `https://storemanagementserver.herokuapp.com/salesExecutive/${id}`;
+            const url = `https://store-management--server.herokuapp.com/salesExecutive/${id}`;
             fetch(url, {
                 method: 'DELETE'
             })
@@ -50,7 +50,7 @@ export default function SalesExecutives({ isLoading, setIsLoading }) {
 
     useEffect(() => {
         setIsLoading(true)
-        fetch('https://storemanagementserver.herokuapp.com/salesExecutives')
+        fetch('https://store-management--server.herokuapp.com/salesExecutives')
             .then(res => res.json())
             .then(data => {
                 setCarts(data)

@@ -7,7 +7,7 @@ export default function OrderHistory({ userName, isLoading, setIsLoading }) {
 
     const handleRemove = id => {
         if (window.confirm("Are You Sure Want to Delete") === true) {
-            const url = `https://storemanagementserver.herokuapp.com/createOrder/${id}`;
+            const url = `https://store-management--server.herokuapp.com/createOrder/${id}`;
             fetch(url, {
                 method: 'DELETE'
             })
@@ -29,7 +29,7 @@ export default function OrderHistory({ userName, isLoading, setIsLoading }) {
 
     useEffect(() => {
         setIsLoading(true)
-        fetch(`https://storemanagementserver.herokuapp.com/createOrder/${userName}`)
+        fetch(`https://store-management--server.herokuapp.com/createOrder/${userName}`)
             .then(res => res.json())
             .then(data => {
                 setCarts(data)
