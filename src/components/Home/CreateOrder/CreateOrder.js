@@ -8,6 +8,7 @@ export default function CreateOrder({ userName }) {
     const form = useRef(null)
     const [medicineDetails, setMedicineDetails] = useState([])
     const [currentSelectedMedicine, setCurrentSelectedMedicine] = useState({})
+    const [loading, setLoading] = useState(false);
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -20,6 +21,7 @@ export default function CreateOrder({ userName }) {
     const handleCreateOrder = (e) => {
         // send data to the server
         // create obj for send server
+        setLoading(true)
         const orderDetails = { total: (order.medicineQuantity * currentSelectedMedicine.price), userName: userName, medicineName: currentSelectedMedicine.medicineName, ...order }
         // console.log(orderDetails)
         fetch('https://store-management--server.herokuapp.com/createOrder', {
@@ -40,122 +42,120 @@ export default function CreateOrder({ userName }) {
 
 
                 }
+                setLoading(false)
             })
 
         e.preventDefault()
     }
 
     useEffect(() => {
+        setLoading(true);
         fetch('https://store-management--server.herokuapp.com/medicine')
             .then(res => res.json())
-            .then(data => setMedicineDetails(data))
+            .then(data => {
+                setMedicineDetails(data)
+                setLoading(false)
+            })
     }, [])
 
-    return <div>
-        <h1>Crate Order</h1>
+    return (
+        loading ? <h1>Loading ...</h1> :
+            <div>
+                <h1>Crate Order</h1>
 
-        <form
-            ref={form}
-            onSubmit={handleCreateOrder}>
+                <form
+                    ref={form}
+                    onSubmit={handleCreateOrder}>
 
-            {/* 
-            <TextField
-                required
-                sx={{ width: '50%', m: 2 }}
-                label="Medicine Name"
-                variant="standard"
-                name='medicineName'
-                onBlur={handleOnBlur} /> */}
+                    <ButtonGroupCustom
+                        required
+                        medicineDetails={medicineDetails}
+                        setCurrentSelectedMedicine={setCurrentSelectedMedicine}
+                        style={{ width: '50%' }} />
+                    <TextField
+                        required
+                        sx={{ width: '74%', m: 2 }}
+                        label="Medicine Quantity"
+                        variant="standard"
+                        name='medicineQuantity'
+                        type='number'
+                        onBlur={handleOnBlur} />
 
-            <ButtonGroupCustom
-                required
-                medicineDetails={medicineDetails}
-                setCurrentSelectedMedicine={setCurrentSelectedMedicine}
-                style={{ width: '50%' }} />
-            <TextField
-                required
-                sx={{ width: '74%', m: 2 }}
-                label="Medicine Quantity"
-                variant="standard"
-                name='medicineQuantity'
-                type='number'
-                onBlur={handleOnBlur} />
-
-            <TextField
-                required
-                sx={{ width: '74%', m: 2 }}
-                label="customer Name"
-                variant="standard"
-                name='customerName'
-                onBlur={handleOnBlur} />
-            <TextField
-                required
-                sx={{ width: '74%', m: 2 }}
-                label="customer Contact Number"
-                variant="standard"
-                name='contactNumber'
-                onBlur={handleOnBlur} />
+                    <TextField
+                        required
+                        sx={{ width: '74%', m: 2 }}
+                        label="customer Name"
+                        variant="standard"
+                        name='customerName'
+                        onBlur={handleOnBlur} />
+                    <TextField
+                        required
+                        sx={{ width: '74%', m: 2 }}
+                        label="customer Contact Number"
+                        variant="standard"
+                        name='contactNumber'
+                        onBlur={handleOnBlur} />
 
 
 
-            <h2>Order Details</h2>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <h2>Order Details</h2>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-                <TableContainer sx={{ width: "74%" }} component={Paper}>
-                    <Table sx={{}} aria-label="Appointments table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Medicine Name</TableCell>
-                                <TableCell>Quantity</TableCell>
-                                <TableCell align="right">Price(Per Unite)</TableCell>
-
-
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-
-                            <TableRow
-
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {currentSelectedMedicine.medicineName}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {order.medicineQuantity}
-                                </TableCell>
-                                <TableCell align="right">{currentSelectedMedicine.price}</TableCell>
+                        <TableContainer sx={{ width: "74%" }} component={Paper}>
+                            <Table sx={{}} aria-label="Appointments table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Medicine Name</TableCell>
+                                        <TableCell>Quantity</TableCell>
+                                        <TableCell align="right">Price(Per Unite)</TableCell>
 
 
-                            </TableRow>
-                            <TableRow
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
 
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    Total:
-                                </TableCell>
-                                <TableCell component="th" scope="row">
+                                    <TableRow
 
-                                </TableCell>
-                                <TableCell align="right">{(order?.medicineQuantity * currentSelectedMedicine?.price).toString()}</TableCell>
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {currentSelectedMedicine.medicineName}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {order.medicineQuantity}
+                                        </TableCell>
+                                        <TableCell align="right">{currentSelectedMedicine.price}</TableCell>
 
 
-                            </TableRow>
+                                    </TableRow>
+                                    <TableRow
 
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            Total:
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
 
-            <button
+                                        </TableCell>
+                                        <TableCell align="right">{(order?.medicineQuantity * currentSelectedMedicine?.price).toString()}</TableCell>
 
-                style={{ marginTop: 20, width: '74%', backgroundColor: '#1976D2', color: 'white', padding: '10px', borderRadius: '15px', cursor: 'pointer' }} type='submit'>Create Order</button>
+
+                                    </TableRow>
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+
+                    <button
+
+                        style={{ marginTop: 20, width: '74%', backgroundColor: '#1976D2', color: 'white', padding: '10px', borderRadius: '15px', cursor: 'pointer' }} type='submit'>Create Order</button>
 
 
 
 
 
-        </form>
-    </div>;
+                </form>
+            </div>)
 } 

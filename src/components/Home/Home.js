@@ -18,6 +18,7 @@ import OrderHistory from './OrderHistory/OrderHistory';
 import Inventory from './Inventory/Inventory';
 import AllOrder from './AllOrder/AllOrder';
 import SalesExecutives from './SalesExecutives/SalesExecutives';
+import { addToDb } from '../fakedb/fakedb';
 
 
 const drawerWidth = 200;
@@ -37,6 +38,7 @@ function Home(props) {
         setUser(false)
         setUserName('');
         setAdmin(false)
+        addToDb('')
     }
     const drawer = (
         <div style={{ textAlign: 'left' }}>
