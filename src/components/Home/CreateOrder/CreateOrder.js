@@ -35,6 +35,7 @@ export default function CreateOrder({ userName }) {
             .then(res => res.json())
             .then(data => {
                 if (data.insertedId) {
+                    setLoading(false)
                     alert('Order Added')
                     form.current.reset();
                     // setCurrentSelectedMedicine({})
@@ -42,7 +43,6 @@ export default function CreateOrder({ userName }) {
 
 
                 }
-                setLoading(false)
             })
 
         e.preventDefault()

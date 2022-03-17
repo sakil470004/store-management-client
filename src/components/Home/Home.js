@@ -28,7 +28,6 @@ function Home(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     let { path, url } = useRouteMatch();
-    // let url='http://localhost:3000/'
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
