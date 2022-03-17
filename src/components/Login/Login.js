@@ -60,12 +60,12 @@ export default function Login({ setAdmin, setUser, setUserName }) {
             setUserName(userData)
             history.push('/dashboard')
         }
-        
+
         setLoading(false)
-    }, [])
+    }, [setUser, setAdmin, setUserName, history])
 
     return <div className='login--container'>
-        {loading ? <h1  style={{color:'white'}}>Loading ...</h1> :
+        {loading ? <h1 style={{ color: 'white' }}>Loading ...</h1> :
             <div>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div style={{ background: '#fff8f8', width: '600px', padding: '30px', borderRadius: '40px' }}>
