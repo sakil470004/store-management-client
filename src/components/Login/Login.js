@@ -102,11 +102,12 @@ export default function Login({ setAdmin, setUser, setUserName }) {
 
                         </form>
 
-                        {/* this for user friendly work */}
+                       
 
                     </div>
 
                 </div>
+                 {/* this for user friendly work */}
                 <div style={{ color: 'red', marginTop: '10px' }}> For User : UserName and password :test-sales<br />
                     For Admin : UserName and password :test-admin
                 </div>
