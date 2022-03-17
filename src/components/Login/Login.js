@@ -1,4 +1,5 @@
 import { TextField } from '@mui/material';
+import './Login.css'
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -43,48 +44,51 @@ export default function Login({ setAdmin, setUser, setUserName }) {
     }
 
 
-    return <div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ background: '#fff8f8', width: '600px', marginTop: '200px', padding: '30px', borderRadius: '40px' }}>
-                <h1 style={{ color: 'red' }}>Login</h1>
+    return <div className='login--container'>
+        <div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ background: '#fff8f8', width: '600px', padding: '30px', borderRadius: '40px' }}>
+                    <h1 style={{ color: 'red' }}>Login</h1>
 
 
 
-                <form
-                    ref={form}
-                    onSubmit={handleLogin}>
+                    <form
+                        ref={form}
+                        onSubmit={handleLogin}>
 
-                    <TextField
-                        required
-                        sx={{ width: '90%', m: 2 }}
-                        label="Username"
-                        variant="standard"
-                        name='userName'
-                        onBlur={handleOnBlur} />
+                        <TextField
+                            required
+                            sx={{ width: '90%', m: 2 }}
+                            label="Username"
+                            variant="standard"
+                            name='userName'
+                            onBlur={handleOnBlur} />
 
-                    <TextField
-                        required
-                        sx={{ width: '90%', m: 2 }}
-                        label="Password"
-                        variant="standard"
-                        name='password'
-                        type='password'
-                        onBlur={handleOnBlur} />
+                        <TextField
+                            required
+                            sx={{ width: '90%', m: 2 }}
+                            label="Password"
+                            variant="standard"
+                            name='password'
+                            type='password'
+                            onBlur={handleOnBlur} />
 
 
 
-                    <button
+                        <button
 
-                        style={{ marginTop: 20, width: '90%', backgroundColor: '#FEEAEB', color: 'red', padding: '10px', borderRadius: '15px', cursor: 'pointer', fontSize: '20px' }} type='submit'>LOGIN</button>
+                            style={{ marginTop: 20, width: '90%', backgroundColor: '#FEEAEB', color: 'red', padding: '10px', borderRadius: '15px', cursor: 'pointer', fontSize: '20px' }} type='submit'>LOGIN</button>
 
-                </form>
+                    </form>
 
-                {/* this for user friendly work */}
+                    {/* this for user friendly work */}
+
+                </div>
 
             </div>
-
+            <div style={{ color: 'red',marginTop:'10px' }}> For User : UserName and password :test-sales<br />
+                For Admin : UserName and password :test-admin
+            </div>
         </div>
-        For User : UserName and password :test-sales<br />
-        For Admin : UserName and password :test-admin
     </div>
 }
