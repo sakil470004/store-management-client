@@ -37,7 +37,7 @@ export default function UpdateMedicineDetails({ data, openU, setOpenU, isChanged
         // send data to the server
 
         const newMedicineData = { ...medicine, _id: data._id }
-        fetch('https://store-management--server.herokuapp.com/medicines', {
+        fetch('https://store-management-server-three.vercel.app/medicines', {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

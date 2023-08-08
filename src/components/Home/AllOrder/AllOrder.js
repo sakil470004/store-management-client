@@ -9,7 +9,7 @@ export default function AllOrder({ isLoading, setIsLoading }) {
     const handleRemove = id => {
         if (window.confirm("Are You Sure Want to Delete") === true) {
 
-            const url = `https://store-management--server.herokuapp.com/createOrder/${id}`;
+            const url = `https://store-management-server-three.vercel.app/createOrder/${id}`;
             fetch(url, {
                 method: 'DELETE'
             })
@@ -31,7 +31,7 @@ export default function AllOrder({ isLoading, setIsLoading }) {
 
     useEffect(() => {
         setIsLoading(true)
-        fetch('https://store-management--server.herokuapp.com/createOrder')
+        fetch('https://store-management-server-three.vercel.app/createOrder')
             .then(res => res.json())
             .then(data => {setCarts(data)
                 setIsLoading(false)

@@ -37,7 +37,7 @@ export default function UpdateSalesExecutives({ data, openU, setOpenU, isChanged
         // send data to the server
 
         const newSalesExecutive = { ...salesExecutive, _id: data._id }
-        fetch('https://store-management--server.herokuapp.com/salesExecutive', {
+        fetch('https://store-management-server-three.vercel.app/salesExecutive', {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

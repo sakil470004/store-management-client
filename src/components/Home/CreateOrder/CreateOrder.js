@@ -24,7 +24,7 @@ export default function CreateOrder({ userName }) {
         setLoading(true)
         const orderDetails = { total: (order.medicineQuantity * currentSelectedMedicine.price), userName: userName, medicineName: currentSelectedMedicine.medicineName, ...order }
         // console.log(orderDetails)
-        fetch('https://store-management--server.herokuapp.com/createOrder', {
+        fetch('https://store-management-server-three.vercel.app/createOrder', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -50,7 +50,7 @@ export default function CreateOrder({ userName }) {
 
     useEffect(() => {
         setLoading(true);
-        fetch('https://store-management--server.herokuapp.com/medicine')
+        fetch('https://store-management-server-three.vercel.app/medicine')
             .then(res => res.json())
             .then(data => {
                 setMedicineDetails(data)
